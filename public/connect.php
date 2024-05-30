@@ -9,7 +9,8 @@ $link_login = $_SESSION["link-login"];
 $link_login_only = $_SESSION["link-login-only"];
 $linkorig = "https://www.google.com";
 
-$username="admin";
+$username = "test";
+$password = "test123";
 
 $fname = $_POST['fname'];
 $lname = $_POST['lname'];
@@ -69,14 +70,6 @@ mysqli_close($con);
 </div>
 
 <script type="text/javascript">
-    function doLogin() {
-        document.sendin.username.value = document.login.username.value;
-        document.sendin.password.value = hexMD5('\011\373\054\364\002\233\266\263\270\373\173\323\234\313\365\337\356');
-        document.sendin.submit();
-        return false;
-    }
-</script>
-<script type="text/javascript">
     function formAutoSubmit () {
         var frm = document.getElementById("login");
         document.getElementById("login").submit();
@@ -87,11 +80,11 @@ mysqli_close($con);
 
 </script>
 
-<form id="login" method="post" action="<?php echo $link_login_only; ?>" onSubmit="return doLogin()">
+<form id="login" method="post" action="<?php echo $link_login_only; ?>">
     <input name="dst" type="hidden" value="<?php echo $linkorig; ?>" />
     <input name="popup" type="hidden" value="false" />
     <input name="username" type="hidden" value="<?php echo $username; ?>"/>
-    <input name="password" type="hidden"/>
+    <input name="password" type="hidden" value="<?php echo $password; ?>"/>
 </form>
 
 </body>
