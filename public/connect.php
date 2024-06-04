@@ -4,13 +4,9 @@ require 'header.php';
 include 'config.php';
 
 $mac = $_SESSION["mac"];
-$ip = $_SESSION["ip"];
-$link_login = $_SESSION["link-login"];
-$link_login_only = $_SESSION["link-login-only"];
-$linkorig = "https://www.google.com";
-
-$username = "test";
-$password = "test123";
+$authaction = $_SESSION['authaction'];
+$tok = $_SESSION['tok'];
+$redir = $_SESSION['REDIRECT_URL'];
 
 $fname = $_POST['fname'];
 $lname = $_POST['lname'];
@@ -24,12 +20,11 @@ if ($_SESSION["user_type"] == "new") {
     `lastname` varchar(45) NOT NULL,
     `email` varchar(45) NOT NULL,
     `mac` varchar(45) NOT NULL,
-    `ip` varchar(45) NOT NULL,
     `last_updated` varchar(45) NOT NULL,
     PRIMARY KEY (`id`)
     )");
 
-    mysqli_query($con,"INSERT INTO `$table_name` (firstname, lastname, email, mac, ip, last_updated) VALUES ('$fname', '$lname', '$email', '$mac', '$ip', NOW())");
+    mysqli_query($con,"INSERT INTO `$table_name` (firstname, lastname, email, mac, last_updated) VALUES ('$fname', '$lname', '$email', '$mac', NOW())");
 }
 
 mysqli_close($con);
@@ -69,23 +64,18 @@ mysqli_close($con);
 
 </div>
 
-<script type="text/javascript">
-    function formAutoSubmit () {
-        var frm = document.getElementById("login");
-        document.getElementById("login").submit();
-        frm.submit();
-    }
-    // window.onload = formAutoSubmit;
-    window.onload = setTimeout(formAutoSubmit, 2500);
-
-</script>
-
-<form id="login" method="post" action="<?php echo $link_login_only; ?>">
-    <input name="dst" type="hidden" value="<?php echo $linkorig; ?>" />
-    <input name="popup" type="hidden" value="false" />
-    <input name="username" type="hidden" value="<?php echo $username; ?>"/>
-    <input name="password" type="hidden" value="<?php echo $password; ?>"/>
+<form id="form1" name="form1" method=GET action="<?php echo htmlspecialchars($authaction); ?>">
+    <input name=tok value="<?php echo htmlspecialchars($tok); ?>" type="hidden">
+    <input name=redir value="<?php echo htmlspecialchars($redir); ?>" type="hidden">
 </form>
+
+<script type="text/javascript">
+    window.onload = function () {
+        window.setTimeout(function () {
+            document.form1.submit();
+        }, 2000);
+    };
+</script>
 
 </body>
 </html>
