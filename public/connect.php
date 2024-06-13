@@ -5,12 +5,7 @@ include 'config.php';
 
 $mac = $_SESSION["mac"];
 $ip = $_SESSION["ip"];
-$link_login = $_SESSION["link-login"];
-$link_login_only = $_SESSION["link-login-only"];
-$linkorig = "https://www.google.com";
-
-$username = "test";
-$password = "test123";
+$url = $_SESSION['url'];
 
 $fname = $_POST['fname'];
 $lname = $_POST['lname'];
@@ -69,23 +64,20 @@ mysqli_close($con);
 
 </div>
 
-<script type="text/javascript">
-    function formAutoSubmit () {
-        var frm = document.getElementById("login");
-        document.getElementById("login").submit();
-        frm.submit();
-    }
-    // window.onload = formAutoSubmit;
-    window.onload = setTimeout(formAutoSubmit, 2500);
-
-</script>
-
-<form id="login" method="post" action="<?php echo $link_login_only; ?>">
-    <input name="dst" type="hidden" value="<?php echo $linkorig; ?>" />
-    <input name="popup" type="hidden" value="false" />
-    <input name="username" type="hidden" value="<?php echo $username; ?>"/>
-    <input name="password" type="hidden" value="<?php echo $password; ?>"/>
+<form id="form1" name="form1" method=POST action="https://<?php echo htmlspecialchars($url); ?>/cgi-bin/login">
+    <input name=user value="user1" type="hidden">
+    <input name=password value="pass1" type="hidden">
+    <input name=cmd value="authenticate" type="hidden">
+    <input name=session_timeout value="3600" type="hidden">
 </form>
+
+<script type="text/javascript">
+    window.onload = function () {
+        window.setTimeout(function () {
+            document.form1.submit();
+        }, 2000);
+    };
+</script>
 
 </body>
 </html>
