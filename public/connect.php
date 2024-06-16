@@ -7,29 +7,16 @@ function encode_password($plain, $challenge, $secret) {
   if ((strlen($challenge) % 2) != 0 ||
     strlen($challenge) == 0)
     return FALSE;
-
   $hexchall = hex2bin($challenge);
   if ($hexchall === FALSE)
     return FALSE;
-
-  if (strlen($secret) > 0) {
-    $crypt_secret = md5($hexchall . $secret, TRUE);
-    $len_secret = 16;
-  } else {
-    $crypt_secret = $hexchall;
-    $len_secret = strlen($hexchall);
-  }
-
+  $key = md5($hexchall . $secret, TRUE);
+  $key_len = 16;
   /* simulate C style \0 terminated string */
   $plain .= "\x00";
   $crypted = '';
   for ($i = 0; $i < strlen($plain); $i++)
-    $crypted .= $plain[$i] ^ $crypt_secret[$i % $len_secret];
-
-  $extra_bytes = 0;//rand(0, 16);
-  for ($i = 0; $i < $extra_bytes; $i++)
-    $crypted .= chr(rand(0, 255));
-
+    $crypted .= $plain[$i] ^ $key[$i % $key_len];
   return bin2hex($crypted);
 }
 
@@ -69,7 +56,8 @@ $encoded_password = encode_password($password, $challenge, $uam_secret);
 
 $uam_redirect_url = "http://$uamip:$uamport/logon?" .
   "username=" . urlencode($username) .
-  "&response=" . urlencode($encoded_password);
+  "&password=" . urlencode($encoded_password) .
+  "&redir=" . urlencode($redirect_url);
 
 ?>
 <!DOCTYPE HTML>
