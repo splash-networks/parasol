@@ -5,7 +5,8 @@ include 'config.php';
 
 $_SESSION["mac"] = $_GET['mac'];
 $_SESSION["ip"] = $_GET['ip'];
-$_SESSION["url"] = $_GET['post'];
+//$_SESSION["url"] = $_GET['post'];
+$_SESSION["url"] = $_GET['switchip'];
 
 $_SESSION["user_type"] = "new";
 
