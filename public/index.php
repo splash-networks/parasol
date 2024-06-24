@@ -3,8 +3,8 @@
 require 'header.php';
 include 'config.php';
 
-$_SESSION["mac"] = $_POST['mac'];
-$_SESSION["ip"] = $_POST['ip'];
+$_SESSION["mac"] = $_GET['mac'];
+$_SESSION["ip"] = $_GET['ip'];
 $_SESSION["url"] = $_GET['post'];
 
 $_SESSION["user_type"] = "new";
